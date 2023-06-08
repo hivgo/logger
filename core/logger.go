@@ -1,4 +1,4 @@
-package core
+package main
 
 import (
 	"fmt"
@@ -57,7 +57,9 @@ func (log *LogFile) Log(text string) {
 			return
 		}
 	}
-	log.file.WriteString(text)
+	log.file.WriteString(text + " \n")
+	//
+	//io.WriteString(log.file,text)
 	log.lines++
 }
 
@@ -65,7 +67,7 @@ func createFile(dir string, time time.Time, log *LogFile) bool {
 	filePath := fmt.Sprintf(dir+"/%.4d_%.2d%.2d_%.1d.log", time.Year(), time.Month(), time.Day(), log.num)
 	file, err := os.Create(filePath)
 	if err != nil {
-		fmt.Printf("Create log file %s error faild:%s\n", filePath, err)
+		fmt.Printf("Create log file %s error faild:%s", filePath, err)
 		return true
 	}
 
@@ -118,7 +120,7 @@ func write(console bool, logType int, format string, args ...interface{}) {
 	}
 
 	time := time.Now()
-	var logFormat = fmt.Sprintf("[%s] [%s] %s\n",
+	var logFormat = fmt.Sprintf("[%s] [%s] %s",
 		time.Format("2006-01-02 15:04:05"), logTypeKey, format)
 	var text = fmt.Sprintf(logFormat, args...)
 	if console {
@@ -146,4 +148,8 @@ func Debug(format string, args ...interface{}) {
 
 func Log(format string, args ...interface{}) {
 	write(false, LTInfo, format, args)
+}
+
+func main() {
+	Error("Test : %s", "receive handle query list guild params roleId:10003")
 }

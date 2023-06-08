@@ -149,7 +149,3 @@ func Debug(format string, args ...interface{}) {
 func Log(format string, args ...interface{}) {
 	write(false, LTInfo, format, args)
 }
-
-func main() {
-	Error("Test : %s", "receive handle query list guild params roleId:10003")
-}
